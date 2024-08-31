@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 // const errorHandler = require('./middlewares/errorHandler');
-// const requestRoutes = require('./routes/requestRoutes');
+const requestRoutes = require('./routes/requestRoutes');
 // const productRoutes = require('./routes/productRoutes');
 const sequelize = require('./config/database');
 
@@ -33,7 +33,7 @@ sequelize.authenticate()
     });
 
 // Routes
-// app.use('/api/requests', requestRoutes);
+app.use('/api/requests', requestRoutes);
 // app.use('/api/products', productRoutes);
 
 // app.use((req, res, next) => {
