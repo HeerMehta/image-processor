@@ -2,7 +2,7 @@ const csvParser = require('csv-parser');
 const path = require('path');
 const fs = require('fs');
 
-const setDataFromCSV = (req, res) => {
+const processDataFromCSV = (req, res) => {
     const csvFilePath = path.join(__dirname, '../', req.file.path);
 
     if (path.extname(req.file.originalname).toLowerCase() !== '.csv') {
@@ -32,5 +32,5 @@ function generateUniqueRequestId() {
 }
 
 module.exports = {
-    setDataFromCSV,
+    processDataFromCSV,
 };

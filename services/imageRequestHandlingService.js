@@ -3,6 +3,7 @@ const axios = require('axios');
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
+const triggerWebhook = require('./webhookService')
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -38,7 +39,7 @@ const uploadToS3 = async (buffer, productName) => {
     return data.Location;
 };
 
-const handleImages = async (imageUrls, productName) => {
+const handleImages = async (imageUrls, productName, requestId) => {
     const outputUrls = [];
 
     for (const url of imageUrls) {
@@ -51,6 +52,12 @@ const handleImages = async (imageUrls, productName) => {
             console.error(`Failed to process image at URL: ${url}`, error.message);
         }
     }
+
+    const processedImageURLs = outputUrls.join(',');
+    triggerWebhook('/update-database', {
+        requestId: requestId, 
+        processedImageURLs: processedImageURLs
+    })
 
     return outputUrls;
 };

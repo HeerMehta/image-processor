@@ -1,32 +1,37 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Request = sequelize.define('Request', {
+const Image = sequelize.define('Image', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     requestId: {
-        type: DataTypes.STRING(255),
-        unique: true,
+        type: DataTypes.INTEGER,
+        references: {
+            model: Request,
+            key: 'id'
+        },
+        onDelete: 'CASCADE'
+    },
+    inputImageUrls: {
+        type: DataTypes.TEXT,
         allowNull: false
     },
-    requestStatus: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
+    outputImageUrls: {
+        type: DataTypes.TEXT
     },
     createdAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     }
 }, {
-    tableName: 'requests',
+    tableName: 'images',
     timestamps: false
 });
 
 
-
 module.exports = {
-    Request,
+    Image
 };
